@@ -1,0 +1,32 @@
+---
+
+- name: "Installing Apache webserver & hosting A Simple Site"
+  hosts: amazon
+  become: true
+  tasks:
+
+    - name: "Installing Apache Webserver"
+      yum:
+        name: httpd
+        state: present
+
+    - name: "Creating httpd.conf from template"
+      template:
+        src: "httpd.conf.tmpl"
+        dest: "/etc/httpd/conf/httpd.conf"
+        owner: "root"
+        group: "root"
+
+    - name: "Copying Website Contents"
+      copy:
+        src: ./website/
+        dest: /var/www/html/
+        owner: {{ httpd_user }}
+        group: {{ httpd_group }}
+
+
+    - name: "Restarting/Enabling httpd Service"
+      service:
+        name: httpd
+        state: restarted
+        enabled: true

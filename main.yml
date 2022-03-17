@@ -27,6 +27,8 @@
 
     - name: "creating Additional user account"
 
+    - name: "updating additional user password"
+
     - name: "Restarting/Enabling httpd Service"
       service:
         name: httpd

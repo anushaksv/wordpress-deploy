@@ -15,14 +15,15 @@
         dest: "/etc/httpd/conf/httpd.conf"
         owner: "root"
         group: "root"
-
  
     - name: Creating my.cnf from template
       template:
         src: "my.conf.tmpl"
         dest: "/etc/my.cnf"
         owner: "root"
-        group: "root"      
+        group: "root"
+  
+    - name: "Updating mysql root password"   
 
     - name: "Restarting/Enabling httpd Service"
       service:

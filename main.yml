@@ -25,6 +25,8 @@
   
     - name: "Updating mysql root password"   
 
+    - name: "creating Additional user account"
+
     - name: "Restarting/Enabling httpd Service"
       service:
         name: httpd

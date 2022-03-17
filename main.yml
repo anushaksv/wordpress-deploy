@@ -1,13 +1,12 @@
 ---
-
 - name: "Installing Apache webserver & hosting A Simple Site"
   hosts: amazon
   become: true
   tasks:
 
-    - name: "Installing Apache Webserver"
+    - name: "Installing Apache and Mysql"
       yum:
-        name: httpd
+        name: [ httpd , php, mariadb-server]
         state: present
 
     - name: "Creating httpd.conf from template"
@@ -17,16 +16,22 @@
         owner: "root"
         group: "root"
 
-    - name: "Copying Website Contents"
-      copy:
-        src: ./website/
-        dest: /var/www/html/
-        owner: {{ httpd_user }}
-        group: {{ httpd_group }}
-
+ 
+    - name: Creating my.cnf from template
+      template:
+        src: "my.conf.tmpl"
+        dest: "/etc/my.cnf"
+        owner: "root"
+        group: "root"      
 
     - name: "Restarting/Enabling httpd Service"
       service:
         name: httpd
+        state: restarted
+        enabled: true
+
+    - name: "Restarting/Enabling mariadb Service"
+      service:
+        name: mariadb
         state: restarted
         enabled: true
